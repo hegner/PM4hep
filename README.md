@@ -1,16 +1,12 @@
-PluginService 
+PluginManager
 =============
 
 Introduction
 ------------
 
-The Plugin Service is a small tool to add to a C++ application the
+The Plugin Manager is a small tool to add to a C++ application the
 possibility of dynamically instantiate (via _factories_) objects from classes
 defined in plug-in (or component) libraries.
-
-While being part of Gaudi, it only depends on a Posix system (support for other
-systems is possible, but very low priority).
-
 
 Usage
 ------
@@ -25,11 +21,11 @@ derived classes.  For example, if your base class is called `Foo` and you want
 to instantiate the derived classes with one `std::string` argument, you can
 write something like:
 
-    #include <Gaudi/PluginService.h>
+    #include <PM4hep/PluginManager.h>
     #include <string>
     class Foo {
     public:
-      typedef Gaudi::PluginService::Factory<Foo*, const std::string&> Factory;
+      typedef PM4hep::PluginManager::Factory<Foo*, const std::string&> Factory;
 
       /// Constructor
       Foo(const std::string& name);
@@ -37,7 +33,7 @@ write something like:
       // ...
     };
 
-The templated class `Gaudi::PluginService::Factory` takes as first template
+The templated class `PM4hep::PluginManager::Factory` takes as first template
 argument the return type of the factory and as following arguments the
 arguments required by the constructor of the factory.
 
@@ -49,7 +45,7 @@ have something like:
     DECLARE_COMPONENT(Bar)
 
 The library with `Foo` and the library with `Bar` will have to be linked against
-the library `libGaudiPluginService.so`.
+the library `libPM4hepPluginManager.so`.
 
 To enable the automatic discovery of plugins, the library with `Bar` must be
 processed by the program `listcomponents` and the output must be stored in a
@@ -81,7 +77,7 @@ Special cases
 
 ### Factory aliases
 
-Together with the simple usage described above, the Gaudi Plugin Service allows
+Together with the simple usage described above, the PM4hep Plugin Service allows
 you to give to use aliases to refer to the plug-in class.
 For example, for a templated plug-in class you may have:
 

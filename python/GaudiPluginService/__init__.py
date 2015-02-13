@@ -1,1 +1,1 @@
-# hook for GaudiPluginService
+# hook for PM4hepPluginManager

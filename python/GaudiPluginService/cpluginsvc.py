@@ -1,10 +1,10 @@
-## cpluginsvc is a ctypes-based wrapper for the C-exposed API of GaudiPluginService
+## cpluginsvc is a ctypes-based wrapper for the C-exposed API of PM4hepPluginManager
 __doc__ = '''
-cpluginsvc is a ctypes-based wrapper for the C-API of the GaudiPluginService.
+cpluginsvc is a ctypes-based wrapper for the C-API of the PM4hepPluginManager.
 
 e.g.:
 
->>> from GaudiPluginService import cpluginsvc
+>>> from PM4hepPluginManager import cpluginsvc
 >>> for _,f in cpluginsvc.factories().items():
 ...     try:
 ...         f.load()
@@ -35,9 +35,9 @@ def _get_filename():
     name = platform.system()
 
     fname = {
-        'Darwin':  "libHepPluginService.so", # or .dylib ? FIXME
-        'Windows': "libHepPluginService.dll",
-        'Linux':   "libHepPluginService.so",
+        'Darwin':  "libHepPluginManager.so", # or .dylib ? FIXME
+        'Windows': "libHepPluginManager.dll",
+        'Linux':   "libHepPluginManager.so",
         }[name]
     return fname
 
@@ -45,7 +45,7 @@ _libname = _get_filename()
 _lib = ctypes.cdll.LoadLibrary(_libname)
 
 class Registry(ctypes.Structure):
-    '''Registry holds the list of factories known by the gaudi PluginService.
+    '''Registry holds the list of factories known by the gaudi PluginManager.
     '''
     _fields_ = [("_registry", ctypes.c_void_p)]
 

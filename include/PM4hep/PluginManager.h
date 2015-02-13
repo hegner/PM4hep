@@ -12,26 +12,26 @@
 \*****************************************************************************/
 
 /// @author Marco Clemencic <marco.clemencic@cern.ch>
-/// @see @ref GaudiPluginService-readme
+/// @see @ref PM4hepPluginManager-readme
 
 #include <string>
 #include <typeinfo>
 #include <utility>
-#include <Gaudi/Details/PluginServiceDetails.h>
+#include <PM4hep/Details/PluginManagerDetails.h>
 
 #define DECLARE_FACTORY_WITH_ID(type, id, factory) \
   _INTERNAL_DECLARE_FACTORY(type, id, factory, __LINE__)
 
 #define DECLARE_FACTORY(type, factory) \
   DECLARE_FACTORY_WITH_ID(type, \
-      ::Gaudi::PluginService::Details::demangle<type>(), factory)
+      ::PM4hep::PluginManager::Details::demangle<type>(), factory)
 
 #define DECLARE_FACTORY_WITH_CREATOR_AND_ID(type, typecreator, id, factory) \
   _INTERNAL_DECLARE_FACTORY_WITH_CREATOR(type, typecreator, id, factory, __LINE__)
 
 #define DECLARE_FACTORY_WITH_CREATOR(type, typecreator, factory) \
   DECLARE_FACTORY_WITH_CREATOR_AND_ID(type, typecreator, \
-      ::Gaudi::PluginService::Details::demangle<type>(), factory)
+      ::PM4hep::PluginManager::Details::demangle<type>(), factory)
 
 #define DECLARE_COMPONENT(type) \
   DECLARE_FACTORY(type, type::Factory)
@@ -39,7 +39,7 @@
 #define DECLARE_COMPONENT_WITH_ID(type, id) \
   DECLARE_FACTORY_WITH_ID(type, id, type::Factory)
 
-namespace Gaudi { namespace PluginService {
+namespace PM4hep { namespace PluginManager {
 
 #if !defined(__REFLEX__) || defined(ATLAS)
   /// Class wrapping the signature for a factory with any number of arguments.

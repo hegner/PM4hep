@@ -12,7 +12,7 @@
 /// @author Marco Clemencic <marco.clemencic@cern.ch>
 /// @author Benedikt Hegner <benedikt.hegner@cern.ch>
 
-#include <Gaudi/PluginService.h>
+#include <PM4hep/PluginManager.h>
 
 #include <dlfcn.h>
 #include <dirent.h>
@@ -76,7 +76,7 @@ namespace {
       std::ostringstream o;
       o << "new factory loaded for '" << id << "' with different "
         << desc << ": " << dest << " != " << value;
-      Gaudi::PluginService::Details::logger().warning(o.str());
+      PM4hep::PluginManager::Details::logger().warning(o.str());
     }
   }
 
@@ -108,7 +108,7 @@ namespace {
   }
 }
 
-namespace Gaudi { namespace PluginService {
+namespace PM4hep { namespace PluginManager {
 
   Exception::Exception(const std::string& msg): m_msg(msg) {}
   Exception::~Exception() throw() {}
@@ -397,4 +397,4 @@ namespace Gaudi { namespace PluginService {
     }
   }
 
-}} // namespace Gaudi::PluginService
+}} // namespace PM4hep::PluginManager

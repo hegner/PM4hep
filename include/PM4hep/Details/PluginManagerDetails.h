@@ -39,13 +39,13 @@
 #  define GAUDIPS_LOCAL
 #endif
 
-#ifdef GaudiPluginService_EXPORTS
+#ifdef PM4hepPluginManager_EXPORTS
 #define GAUDIPS_API GAUDIPS_EXPORT
 #else
 #define GAUDIPS_API GAUDIPS_IMPORT
 #endif
 
-namespace Gaudi { namespace PluginService {
+namespace PM4hep { namespace PluginManager {
 
   namespace Details {
     /// Class providing default factory functions.
@@ -92,7 +92,7 @@ namespace Gaudi { namespace PluginService {
     }
 
     /// Return a canonical name for type_info object (implementation borrowed
-    ///  from GaudiKernel/System).
+    ///  from PM4hepKernel/System).
     GAUDIPS_API
     std::string demangle(const std::type_info& id);
 
@@ -261,7 +261,7 @@ namespace Gaudi { namespace PluginService {
       typedef typecreator f_t; \
       static s_t::FuncType creator() { return &f_t::create<s_t>; } \
       _INTERNAL_FACTORY_REGISTER_CNAME(type, serial) () { \
-        using ::Gaudi::PluginService::Details::Registry; \
+        using ::PM4hep::PluginManager::Details::Registry; \
         Registry::instance().add<s_t, type>(id, creator()); \
       } \
     } _INTERNAL_FACTORY_REGISTER_CNAME(s_ ## type, serial); \
@@ -269,7 +269,7 @@ namespace Gaudi { namespace PluginService {
 
 #define _INTERNAL_DECLARE_FACTORY(type, id, factory, serial) \
   _INTERNAL_DECLARE_FACTORY_WITH_CREATOR(type, \
-    ::Gaudi::PluginService::Details::Factory<type>, \
+    ::PM4hep::PluginManager::Details::Factory<type>, \
     id, factory, serial)
 
 #endif //_GAUDI_PLUGIN_SERVICE_DETAILS_H_

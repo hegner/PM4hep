@@ -22,7 +22,7 @@
 #include <getopt.h>
 #include <dlfcn.h>
 
-#include <Gaudi/PluginService.h>
+#include <PM4hep/PluginManager.h>
 
 void help(std::string argv0) {
   std::cout << "Usage: " << argv0 << " [option] library1 [library2 ...]\n"
@@ -44,7 +44,7 @@ void usage(std::string argv0) {
 }
 
 int main(int argc, char* argv[]) {
-  const auto& reg = Gaudi::PluginService::Details::Registry::instance();
+  const auto& reg = PM4hep::PluginManager::Details::Registry::instance();
 
   // cache to keep track of the loaded factories
   auto loaded = reg.loadedFactories();

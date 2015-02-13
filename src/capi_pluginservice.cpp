@@ -1,9 +1,9 @@
 #include <vector>
 #include "capi_pluginservice.h"
-#include <Gaudi/PluginService.h>
+#include <PM4hep/PluginManager.h>
 
 #include <iostream>
-using namespace Gaudi::PluginService::Details;
+using namespace PM4hep::PluginManager::Details;
 
 cgaudi_pluginsvc_t
 cgaudi_pluginsvc_instance()

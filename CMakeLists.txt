@@ -21,10 +21,10 @@ set(CMAKE_BUILD_TYPE Release)
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-add_library(HepPluginService SHARED src/PluginService.cpp src/capi_pluginservice.cpp)
-target_link_libraries(HepPluginService ${CMAKE_DL_LIBS})
+add_library(HepPluginManager SHARED src/PluginManager.cpp src/capi_pluginservice.cpp)
+target_link_libraries(HepPluginManager ${CMAKE_DL_LIBS})
 
-add_executable(listcomponents src/listcomponents.cpp src/PluginService.cpp)
+add_executable(listcomponents src/listcomponents.cpp src/PluginManager.cpp)
 target_link_libraries(listcomponents ${CMAKE_DL_LIBS})
 
 add_custom_command(OUTPUT test.components
@@ -35,10 +35,10 @@ add_custom_command(OUTPUT test.components
 add_custom_target(ComponentsList ALL DEPENDS test.components)
 
 add_library(Component MODULE tests/testMacro.cpp)
-target_link_libraries(Component HepPluginService)
+target_link_libraries(Component HepPluginManager)
 
 add_executable(testLoading tests/testLoading.cpp)
-target_link_libraries(testLoading HepPluginService)
+target_link_libraries(testLoading HepPluginManager)
 
 # add an optional target to generate API documentation with Doxygen
 find_package(Doxygen)
@@ -52,10 +52,10 @@ if(DOXYGEN_FOUND)
 endif(DOXYGEN_FOUND)
 
 # add optional tests depending on Boost
-find_package(Boost COMPONENTS unit_test_framework REQUIRED)
+find_package(Boost COMPONENTS unit_test_framework)
 if(Boost_FOUND)
   include_directories(${Boost_INCLUDE_DIRS})
   add_executable(UseCases tests/src/UseCases.cpp)
-  target_link_libraries(UseCases ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} HepPluginService)
+  target_link_libraries(UseCases ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} HepPluginManager)
 endif(Boost_FOUND)
 

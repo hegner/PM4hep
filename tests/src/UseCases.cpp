@@ -9,17 +9,17 @@
 * or submit itself to any jurisdiction.                                       *
 \*****************************************************************************/
 /**
- * Compile-time test for all known PluginService use-cases
+ * Compile-time test for all known PluginManager use-cases
  *
  * @author Marco Clemencic <marco.clemencic@cern.ch>
  */
 
-#include <Gaudi/PluginService.h>
+#include <PM4hep/PluginManager.h>
 
 // standard use, 0 arguments
 class Base {
 public:
-  typedef Gaudi::PluginService::Factory<Base*> Factory;
+  typedef PM4hep::PluginManager::Factory<Base*> Factory;
   virtual ~Base() {}
 };
 class Component0: public Base { };
@@ -30,14 +30,14 @@ class Component1: public Base { };
   DECLARE_FACTORY_WITH_PROPS(type, type::Factory)
 #define DECLARE_FACTORY_WITH_PROPS(type, factory)         \
   DECLARE_FACTORY_WITH_ID_AND_PROPS(type, \
-                          ::Gaudi::PluginService::Details::demangle<type>(), \
+                          ::PM4hep::PluginManager::Details::demangle<type>(), \
                           factory)
 #define DECLARE_FACTORY_WITH_ID_AND_PROPS(type, id, factory)         \
   _INTERNAL_DECLARE_FACTORY_WITH_PROPS(type, id, factory, __LINE__)
 #define _INTERNAL_DECLARE_FACTORY_WITH_PROPS(type, id, factory, serial)            \
   _INTERNAL_DECLARE_FACTORY_WITH_CREATOR_AND_PROPS \
   (type,                                                                \
-   ::Gaudi::PluginService::Details::Factory<type>,                      \
+   ::PM4hep::PluginManager::Details::Factory<type>,                      \
    id, factory, serial)
 #define _INTERNAL_DECLARE_FACTORY_WITH_CREATOR_AND_PROPS(type, typecreator,       \
                                                id, factory, serial)     \
@@ -48,7 +48,7 @@ class Component1: public Base { };
       typedef typecreator f_t;                                          \
       static s_t::FuncType creator() { return &f_t::create<s_t>; }      \
       _INTERNAL_FACTORY_REGISTER_CNAME(type, serial) () {               \
-        using ::Gaudi::PluginService::Details::Registry;                \
+        using ::PM4hep::PluginManager::Details::Registry;                \
         Registry::instance().add<s_t, type>(id, creator())              \
           .addProperty("name", #type);                                  \
       }                                                                 \
@@ -60,7 +60,7 @@ DECLARE_COMPONENT_WITH_PROPS(Component1)
 // standard use, 2 arguments
 class Base2 {
 public:
-  typedef Gaudi::PluginService::Factory<Base2*, const std::string&, int> Factory;
+  typedef PM4hep::PluginManager::Factory<Base2*, const std::string&, int> Factory;
   virtual ~Base2() {}
 };
 class Component2: public Base2 {
@@ -134,7 +134,7 @@ BOOST_AUTO_TEST_CASE( ids )
 
 BOOST_AUTO_TEST_CASE( properties )
 {
-  using Gaudi::PluginService::Details::Registry;
+  using PM4hep::PluginManager::Details::Registry;
   auto& reg = Registry::instance();
   auto props = reg.getInfos("Component1")[0].properties;
   BOOST_CHECK(props["name"] == "Component1");

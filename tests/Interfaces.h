@@ -15,10 +15,10 @@
 /// @author Benedikt Hegner <benedikt.hegner@cern.ch>
 
 #include <string>
-#include <Gaudi/PluginService.h>
+#include <PM4hep/PluginManager.h>
 class MyInterface {
 public:
-  typedef Gaudi::PluginService::Factory<MyInterface*, const std::string&, std::string*> Factory;
+  typedef PM4hep::PluginManager::Factory<MyInterface*, const std::string&, std::string*> Factory;
 
    MyInterface() {}
    MyInterface(const std::string&, std::string*) {}

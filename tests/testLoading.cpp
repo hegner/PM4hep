@@ -14,7 +14,7 @@
 #include <memory>
 #include <iostream>
 
-#include <Gaudi/PluginService.h>
+#include <PM4hep/PluginManager.h>
 #include "Interfaces.h"
 
 void call(MyInterface *p) {
@@ -24,8 +24,8 @@ void call(MyInterface *p) {
 
 int main(int argc, char ** argv)
 {
-  Gaudi::PluginService::Details::logger().setLevel(Gaudi::PluginService::Details::Logger::Debug);
-  const auto& registry = Gaudi::PluginService::Details::Registry::instance();
+  PM4hep::PluginManager::Details::logger().setLevel(PM4hep::PluginManager::Details::Logger::Debug);
+  const auto& registry = PM4hep::PluginManager::Details::Registry::instance();
   
   std::string A("A");
   std::string B("B");
@@ -44,8 +44,8 @@ int main(int argc, char ** argv)
 
   try {
     MyInterface::Factory::create("3", "c1b", &B);
-  } catch (Gaudi::PluginService::Exception &e) {
-    std::cout << "PluginService::Exception -> " << e.what() << std::endl;
+  } catch (PM4hep::PluginManager::Exception &e) {
+    std::cout << "PluginManager::Exception -> " << e.what() << std::endl;
   }
 
   std::cout << "Done!" << std::endl;
