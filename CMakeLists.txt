@@ -15,24 +15,45 @@
 
 cmake_minimum_required(VERSION 2.8)
 
-include_directories(include)
+set( PM4hep_VERSION_MAJOR 0 )
+set( PM4hep_VERSION_MINOR 1 )
+set( PM4hep_VERSION_PATCH 0 )
+set( PM4hep_VERSION "${PM4hep_VERSION_MAJOR}.${PM4hep_VERSION_MINOR}" )
 
 set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+#--- set the default install dir to be in the source directory
 
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+  SET( CMAKE_INSTALL_PREFIX "${CMAKE_SOURCE_DIR}/install" CACHE PATH
+    "install prefix path  - overwrite with -D CMAKE_INSTALL_PREFIX = ..."
+    FORCE )
+  MESSAGE(STATUS "CMAKE_INSTALL_PREFIX is ${CMAKE_INSTALL_PREFIX} - overwrite wi
+th -D CMAKE_INSTALL_PREFIX" )
+endif(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+
+
+#--- build target---------------------------------------
+
+include_directories(include)
 add_library(HepPluginManager SHARED src/PluginManager.cpp src/capi_pluginservice.cpp)
 target_link_libraries(HepPluginManager ${CMAKE_DL_LIBS})
 
 add_executable(listcomponents src/listcomponents.cpp src/PluginManager.cpp)
 target_link_libraries(listcomponents ${CMAKE_DL_LIBS})
 
-add_custom_command(OUTPUT test.components
-                   COMMAND LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}:$ENV{LD_LIBRARY_PATH}
-                           ${CMAKE_BINARY_DIR}/listcomponents
-                           -o test.components libComponent.so
-                   DEPENDS Component listcomponents)
-add_custom_target(ComponentsList ALL DEPENDS test.components)
+
+#--- install target-------------------------------------
+
+install(DIRECTORY include/PM4hep
+        DESTINATION include )
+install(TARGETS listcomponents HepPluginManager
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION lib )
+
+
+#--- test target----------------------------------------
 
 add_library(Component MODULE tests/testMacro.cpp)
 target_link_libraries(Component HepPluginManager)
@@ -40,7 +61,22 @@ target_link_libraries(Component HepPluginManager)
 add_executable(testLoading tests/testLoading.cpp)
 target_link_libraries(testLoading HepPluginManager)
 
-# add an optional target to generate API documentation with Doxygen
+add_custom_command(OUTPUT test.components
+                   COMMAND LD_LIBRARY_PATH=${CMAKE_BINARY_DIR}:$ENV{LD_LIBRARY_PATH}
+                           ${CMAKE_BINARY_DIR}/listcomponents
+                           -o test.components libComponent.so
+                   DEPENDS Component listcomponents )
+
+add_custom_target(ComponentsList DEPENDS test.components)
+
+install(TARGETS Component testLoading
+        DESTINATION test )
+install(FILES test.components
+        DESTINATION test )
+
+
+#--- target for Doxygen documentation-------------------
+
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
   configure_file(${CMAKE_CURRENT_SOURCE_DIR}/doc/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
@@ -51,7 +87,9 @@ if(DOXYGEN_FOUND)
 )
 endif(DOXYGEN_FOUND)
 
-# add optional tests depending on Boost
+
+#--- optional tests depending on BOOST -----------------
+
 find_package(Boost COMPONENTS unit_test_framework)
 if(Boost_FOUND)
   include_directories(${Boost_INCLUDE_DIRS})
