@@ -1,5 +1,5 @@
-#ifndef _GAUDI_PLUGIN_SERVICE_H_
-#define _GAUDI_PLUGIN_SERVICE_H_
+#ifndef _PM4HEP_PLUGIN_SERVICE_H_
+#define _PM4HEP_PLUGIN_SERVICE_H_
 /*****************************************************************************\
 * (c) Copyright 2013 CERN                                                     *
 *                                                                             *
@@ -63,7 +63,7 @@ namespace PM4hep { namespace PluginManager {
   };
 #endif
 
-  class GAUDIPS_EXPORT Exception: public std::exception {
+  class PM4HEPPS_EXPORT Exception: public std::exception {
   public:
     Exception(const std::string& msg);
     virtual ~Exception() throw();
@@ -73,4 +73,4 @@ namespace PM4hep { namespace PluginManager {
   };
 }}
 
-#endif //_GAUDI_PLUGIN_SERVICE_H_
+#endif //_PM4HEP_PLUGIN_SERVICE_H_

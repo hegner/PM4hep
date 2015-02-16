@@ -1,5 +1,5 @@
-#ifndef _GAUDI_PLUGIN_SERVICE_DETAILS_H_
-#define _GAUDI_PLUGIN_SERVICE_DETAILS_H_
+#ifndef _PM4HEP_PLUGIN_SERVICE_DETAILS_H_
+#define _PM4HEP_PLUGIN_SERVICE_DETAILS_H_
 /*****************************************************************************\
 * (c) Copyright 2013 CERN                                                     *
 *                                                                             *
@@ -26,23 +26,23 @@
 #endif
 
 #if __GNUC__ >= 4
-#  define GAUDIPS_HASCLASSVISIBILITY
+#  define PM4HEPPS_HASCLASSVISIBILITY
 #endif
 
-#if defined(GAUDIPS_HASCLASSVISIBILITY)
-#  define GAUDIPS_IMPORT __attribute__((visibility("default")))
-#  define GAUDIPS_EXPORT __attribute__((visibility("default")))
-#  define GAUDIPS_LOCAL  __attribute__((visibility("hidden")))
+#if defined(PM4HEPPS_HASCLASSVISIBILITY)
+#  define PM4HEPPS_IMPORT __attribute__((visibility("default")))
+#  define PM4HEPPS_EXPORT __attribute__((visibility("default")))
+#  define PM4HEPPS_LOCAL  __attribute__((visibility("hidden")))
 #else
-#  define GAUDIPS_IMPORT
-#  define GAUDIPS_EXPORT
-#  define GAUDIPS_LOCAL
+#  define PM4HEPPS_IMPORT
+#  define PM4HEPPS_EXPORT
+#  define PM4HEPPS_LOCAL
 #endif
 
 #ifdef PM4hepPluginManager_EXPORTS
-#define GAUDIPS_API GAUDIPS_EXPORT
+#define PM4HEPPS_API PM4HEPPS_EXPORT
 #else
-#define GAUDIPS_API GAUDIPS_IMPORT
+#define PM4HEPPS_API PM4HEPPS_IMPORT
 #endif
 
 namespace PM4hep { namespace PluginManager {
@@ -65,7 +65,7 @@ namespace PM4hep { namespace PluginManager {
 
     /// Function used to load a specific factory function.
     /// @return the pointer to the factory function.
-    GAUDIPS_API
+    PM4HEPPS_API
     void* getCreator(const std::string& id, const std::string& type);
 
     /// Convoluted implementation of getCreator with an embedded
@@ -93,7 +93,7 @@ namespace PM4hep { namespace PluginManager {
 
     /// Return a canonical name for type_info object (implementation borrowed
     ///  from PM4hepKernel/System).
-    GAUDIPS_API
+    PM4HEPPS_API
     std::string demangle(const std::type_info& id);
 
     /// Return a canonical name for the template argument.
@@ -101,7 +101,7 @@ namespace PM4hep { namespace PluginManager {
     inline std::string demangle() { return demangle(typeid(T)); }
 
     /// In-memory database of the loaded factories.
-    class GAUDIPS_API Registry {
+    class PM4HEPPS_API Registry {
     public:
       typedef std::string KeyType;
 
@@ -219,7 +219,7 @@ namespace PM4hep { namespace PluginManager {
     };
 
     /// Simple logging class, just to provide a default implementation.
-    class GAUDIPS_API Logger {
+    class PM4HEPPS_API Logger {
     public:
       enum Level { Debug=0, Info=1, Warning=2, Error=3 };
       Logger(Level level = Warning): m_level(level) {}
@@ -236,16 +236,16 @@ namespace PM4hep { namespace PluginManager {
     };
 
     /// Return the current logger instance.
-    GAUDIPS_API Logger& logger();
+    PM4HEPPS_API Logger& logger();
     /// Set the logger instance to use.
     /// It must be a new instance and the ownership is passed to the function.
-    GAUDIPS_API void setLogger(Logger* logger);
+    PM4HEPPS_API void setLogger(Logger* logger);
   }
 
   /// Backward compatibility with Reflex.
-  GAUDIPS_API void SetDebug(int debugLevel);
+  PM4HEPPS_API void SetDebug(int debugLevel);
   /// Backward compatibility with Reflex.
-  GAUDIPS_API int Debug();
+  PM4HEPPS_API int Debug();
 
 }}
 
@@ -272,4 +272,4 @@ namespace PM4hep { namespace PluginManager {
     ::PM4hep::PluginManager::Details::Factory<type>, \
     id, factory, serial)
 
-#endif //_GAUDI_PLUGIN_SERVICE_DETAILS_H_
+#endif //_PM4HEP_PLUGIN_SERVICE_DETAILS_H_

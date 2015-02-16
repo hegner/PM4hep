@@ -214,7 +214,7 @@ namespace PM4hep { namespace PluginManager {
                   const std::string fact(line, pos2+1);
 		  logger().debug(std::string("    Inserting  ")+interface+":"+fact);
                   m_factories.insert(std::make_pair(interface+":"+fact, FactoryInfo(lib,nullptr,fact,"",interface,"", Properties())));
-#ifdef GAUDI_REFLEX_COMPONENT_ALIASES
+#ifdef PM4HEP_REFLEX_COMPONENT_ALIASES
                   // add an alias for the factory using the Reflex convention
                   std::string old_name = old_style_name(fact);
                   if (fact != old_name) {
@@ -263,7 +263,7 @@ namespace PM4hep { namespace PluginManager {
         factoryInfoSetHelper(entry->second.className, className, "class", id);
 	factoryInfoSetHelper(entry->second.id, id, "alias", id);
       }
-#ifdef GAUDI_REFLEX_COMPONENT_ALIASES
+#ifdef PM4HEP_REFLEX_COMPONENT_ALIASES
       // add an alias for the factory using the Reflex convention
       std::string old_name = old_style_name(id);
       if (id != old_name)
@@ -279,7 +279,7 @@ namespace PM4hep { namespace PluginManager {
       auto f = facts.find(id);
       if (f != facts.end())
       {
-#ifdef GAUDI_REFLEX_COMPONENT_ALIASES
+#ifdef PM4HEP_REFLEX_COMPONENT_ALIASES
         const Properties& props = f->second.properties;
         if (props.find("ReflexName") != props.end())
           logger().warning("requesting factory via old name '" + id + "'"
