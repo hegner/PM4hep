@@ -1,0 +1,15 @@
+# - Config file for the PM4hep package
+# It defines the following variables
+#  PM4hep_INCLUDE_DIRS - include directories
+#  PM4hep_LIBRARIES    - libraries to link against
+#  PM4hep_LIBRARY_DIR  - PM4hep library dir
+#  PM4hep_BINARY_DIR   - binary directory
+ 
+# Compute paths
+get_filename_component(PM4hep_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+
+get_filename_component(PM4hep_INCLUDE_DIRS "${PM4hep_CMAKE_DIR}/../include" ABSOLUTE)
+get_filename_component(PM4hep_BINARY_DIR "${PM4hep_CMAKE_DIR}/../bin" ABSOLUTE)
+get_filename_component(PM4hep_LIBRARY_DIR "${PM4hep_CMAKE_DIR}/../lib" ABSOLUTE)
+
+ADD_LIBRARY(HepPluginManager SHARED IMPORTED)

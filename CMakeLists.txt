@@ -33,7 +33,6 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 th -D CMAKE_INSTALL_PREFIX" )
 endif(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 
-
 #--- build target---------------------------------------
 
 include_directories(include)
@@ -67,7 +66,7 @@ add_custom_command(OUTPUT test.components
                            -o test.components libComponent.so
                    DEPENDS Component listcomponents )
 
-add_custom_target(ComponentsList DEPENDS test.components)
+add_custom_target(ComponentsList ALL DEPENDS test.components)
 
 install(TARGETS Component testLoading
         DESTINATION test )
@@ -90,10 +89,19 @@ endif(DOXYGEN_FOUND)
 
 #--- optional tests depending on BOOST -----------------
 
-find_package(Boost COMPONENTS unit_test_framework)
-if(Boost_FOUND)
-  include_directories(${Boost_INCLUDE_DIRS})
-  add_executable(UseCases tests/src/UseCases.cpp)
-  target_link_libraries(UseCases ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} HepPluginManager)
-endif(Boost_FOUND)
+#find_package(Boost COMPONENTS unit_test_framework)
+#if(Boost_FOUND)
+#  include_directories(${Boost_INCLUDE_DIRS})
+#  add_executable(UseCases tests/src/UseCases.cpp)
+#  target_link_libraries(UseCases ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} HepPluginManager)
+#endif(Boost_FOUND)
 
+#--- targets for CMake infrastructure ------------------
+
+configure_file(PM4hepConfigVersion.cmake.in "${PROJECT_BINARY_DIR}/PM4hepConfigVersion.cmake" @ONLY)
+configure_file(PM4hepConfig.cmake.in "${PROJECT_BINARY_DIR}/PM4hepConfig.cmake" @ONLY)
+
+install(FILES
+  "${PROJECT_BINARY_DIR}/PM4hepConfig.cmake"
+  "${PROJECT_BINARY_DIR}/PM4hepConfigVersion.cmake"
+  DESTINATION "${CMAKE_INSTALL_PREFIX}/cmake")
